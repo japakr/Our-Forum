@@ -1,0 +1,25 @@
+{% extends 'forum/base.html' %}
+
+{% block content %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Topic</th>
+        <th>Author</th>
+        <th>Last post</th>
+      </tr>
+    </thead>
+    {% for topic in topics %}
+    <tbody>
+      <tr>
+        <td><a href="{% url 'topic' topic_id=topic.id %}"><strong>{{ topic }}</strong></a></td>
+        <td>{{ topic.author }}</td>
+        <td>{{ topic.last_update|date:'M d, Y H:i' }} by {{ topic.last_poster }}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+  {% if user.is_authenticated %}
+    <a href="{% url 'new_topic' %}">New topic</a>
+  {% endif %}
+{% endblock content %}

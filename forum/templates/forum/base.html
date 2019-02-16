@@ -1,0 +1,40 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Forum</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <header class="page-header">
+      <h1><a href="{% url 'index' %}">Our Forum</a></h1>
+    </header>
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        {% if user.is_authenticated %}
+          <div class="navbar-brand" href="{% url 'index' %}"><span id="site-name">Welcome, <span class="username">{{ user.username }}</span></span></div>
+        {% else %}
+          <div class="navbar-brand" href="{% url 'index' %}"><span id="site-name"></span></div>
+        {% endif %}
+      </div>
+      <ul class="nav navbar-nav">
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'profile' request.user.id %}">Profile</a></li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+    {% block content %}
+    {% endblock content %}
+  </body>
+</html>

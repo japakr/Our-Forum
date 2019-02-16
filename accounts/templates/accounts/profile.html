@@ -1,0 +1,35 @@
+{% extends 'forum/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="container">
+    <form class="" enctype="multipart/form-data" action="{% url 'profile' user_id=user.id %}"  method="post">
+      {% csrf_token %}
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+
+      {% for field in form.visible_fields %}
+      <h2>{{ field.name.title }}:</h2>
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {% if field.name.title == 'Bio' %}
+            {{ field|add_class:'form-control' }}
+          {% else %}
+            {{ field }}
+          {% endif %}
+          {% for error in field.errors %}
+            <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">
+            <span class="glyphicon glyphicon-ok"></span> Save
+        </button>
+        <input type="hidden" name="next" value="{% url 'index' %}"/>
+        <a href="{% url 'index' %}" class="btn btn-default">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock content %}

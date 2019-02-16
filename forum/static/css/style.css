@@ -1,0 +1,80 @@
+body{
+  background-color: #f1f2f3;
+}
+
+.topic{
+  background-color: #fff;
+}
+.topic-title{
+  padding: 8pt;
+}
+.post{
+  background-color: #ffffff;
+  padding: 15pt;
+  border-bottom: 1px dotted #ccc;
+}
+.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h2 a:active {
+    color: #ffffff;
+    font-size: 36pt;
+    text-decoration: none;
+}
+
+a, a:visited, a:active {
+    color: #000;
+    text-decoration: none;
+}
+
+.page-header {
+    background-color: black;
+    margin: 0;
+    padding: 20px 20px 20px 40px;
+}
+h1 a {
+    color: #FCA205;
+    font-family: 'Lobster';
+}
+
+.user-data{
+  font-weight: bold;
+  text-align: center;
+}
+.user-data p, img{
+  margin: 0;
+}
+.post-content{
+
+  padding: 15pt;
+}
+.post-text{
+  padding: 20pt;
+  /*background-color: #f1f2f3;*/
+  word-wrap: break-word;
+  /*border: 1px solid #ccc;*/
+  border-radius: 10px 10px;
+  min-width: 100%;
+}
+.post-date{
+
+  float: right;
+
+}
+.edit-div{
+  float: right;
+  padding-top: 10pt;
+}
+.username{
+  color: #0cc471;
+}
+.profile-image{
+  width:100px; height: 100px;
+  border: 1px solid #ccc;
+}
+.topic-title{
+  font-weight: bold;
+}
+blockquote{
+  font-size: 14px !important;
+}
+.post-quote{
+  font-weight: bold;
+}
