@@ -20,6 +20,6 @@
     {% endfor %}
   </table>
   {% if user.is_authenticated %}
-    <a href="{% url 'new_topic' %}">New topic</a>
+    <a id='new-topic' class="btn btn-primary btn-lg btn-block" href="{% url 'new_topic' %}">New topic</a>
   {% endif %}
 {% endblock content %}

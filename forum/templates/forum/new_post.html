@@ -8,31 +8,37 @@
         {{ topic.title }}
       </h2>
     </div>
-    <div class="row post">
-      <div class="user-data col-md-2">
-        <p>{{ topic.author }}</p>
-        <img class="profile-image" src="{{ topic.author.profile.pic.url }}" alt="">
-        <p>Member since {{ topic.author.date_joined|date:'d/m/Y' }}</p>
+    <div class="post-wrapper">
+      <div class="row post">
+        <div class="user-data col-md-2">
+          <p>{{ topic.author }}</p>
+          <img class="profile-image" src="{{ topic.author.profile.pic.url }}" alt="">
+          <p>Member since {{ topic.author.date_joined|date:'d/m/Y' }}</p>
+        </div>
+        <div class="post-content col-md-8">
+          <p class="post-text">
+            {{ topic.text }}
+          </p>
+          <p class="post-date">
+            {% if topic.edit_date %}
+              [Edited] {{ topic.edit_date }}
+            {% else %}
+              {{ topic.date_added }}
+            {% endif %}
+            {% if request.user == topic.author %}
+              <a class="edit-symbol" href="{% url 'edit_topic' topic_id=topic.id %}">Edit</a>
+            {% endif %}
+          </p>
+        </div>
       </div>
-      <div class="edit-div col-md-2">
-        {% if request.user == topic.author %}
-          <a class="edit-symbol" href="{% url 'edit_topic' topic_id=topic.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        {% endif %}
-      </div>
-      <div class="post-content col-md-8">
-        <p class="post-text">
-          {{ topic.text }}
-        </p>
-        <p class="post-date">
-          {% if topic.edit_date %}
-            [Edited] {{ topic.edit_date }}
-          {% else %}
-            {{ topic.date_added }}
-          {% endif %}
-        </p>
-      </div>
+      {% if topic.author.profile.bio %}
+        <div class="row user-bio">
+          <p>{{ topic.author.profile.bio| linebreaksbr }}</p>
+        </div>
+      {% endif %}
     </div>
     {% for post in posts %}
+    <div class="post-wrapper">
       <div class="row post">
         <div class="user-data col-md-2">
           <p>{{ post.author }}</p>
@@ -57,41 +63,52 @@
               {{ post.date_added }}
             {% endif %}
           </p>
-          <a class="post-quote" href="{% url 'new_post' topic_id=topic.id post_id=post.id %}">Quote</a>
-        </div>
-        <div class="edit-div col-md-2">
-          {% if request.user == post.author %}
-            <a class="edit-symbol" href="{% url 'edit_post' post_id=post.id topic_id=topic.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-          {% endif %}
+          <ul class="quote-edit">
+            {% if user.is_authenticated %}
+              <li><a class="post-quote" href="{% url 'new_post' topic_id=topic.id post_id=post.id %}">Quote</a></li>
+            {% endif %}
+            {% if request.user == post.author %}
+              <li><a class="edit-symbol" href="{% url 'edit_post' post_id=post.id topic_id=topic.id %}">Edit post</a></li>
+            {% endif %}
+          </ul>
         </div>
       </div>
+      {% if post.author.profile.bio %}
+        <div class="row user-bio">
+          <p>{{ post.author.profile.bio }}</p>
+        </div>
+      {% endif %}
+    </div>
     {% endfor %}
-    {% if post %}
-    <p>Quoting <strong>{{ post.author }}</strong>: "{{ post }}"</p>
-    <form class="" action="{% url 'new_post' topic_id=topic.id post_id=post.id %}"  method="post">
-    {% else %}
-    <form class="" action="{% url 'new_post' topic_id=topic.id %}"  method="post">
-    {% endif %}
-      {% csrf_token %}
-      {% for hidden in form.hidden_fields %}
-        {{ hidden }}
-      {% endfor %}
+    <div class="container-fluid new-post-separator">
+      {% if post %}
+      <p>Quoting <strong>{{ post.author }}</strong>: "{{ post }}"</p>
+      <form class="" action="{% url 'new_post' topic_id=topic.id post_id=post.id %}"  method="post">
+      {% else %}
+      <form class="" action="{% url 'new_post' topic_id=topic.id %}"  method="post">
+      {% endif %}
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
 
-      {% for field in form.visible_fields %}
+        {% for field in form.visible_fields %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field|add_class:'form-control' }}
+            {% for error in field.errors %}
+              <span class="help-block">{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% endfor %}
         <div class="form-group">
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {{ field|add_class:'form-control' }}
-          {% for error in field.errors %}
-            <span class="help-block">{{ error }}</span>
-          {% endfor %}
+          <button type="submit" class="btn btn-success">
+              <span class="glyphicon glyphicon-ok"></span> Save
+          </button>
+          <input type="hidden" name="next" value="{% url 'index' %}"/>
+          <a href="{% url 'topic' topic_id=topic.id %}" class="btn btn-default">Cancel</a>
         </div>
-      {% endfor %}
-      <div class="form-group">
-        <button type="submit" class="btn btn-success">
-            <span class="glyphicon glyphicon-ok"></span> Save
-        </button>
-        <input type="hidden" name="next" value="{% url 'index' %}"/>
-        <a href="{% url 'topic' topic_id=topic.id %}" class="btn btn-default">Cancel</a>
-      </div>
-    </form>
+      </form>
+    </div>
+  </div>
 {% endblock content %}

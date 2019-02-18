@@ -8,31 +8,37 @@
         {{ topic.title }}
       </h2>
     </div>
-    <div class="row post">
-      <div class="user-data col-md-2">
-        <p>{{ topic.author }}</p>
-        <img class="profile-image" src="{{ topic.author.profile.pic.url }}" alt="">
-        <p>Member since {{ topic.author.date_joined|date:'d/m/Y' }}</p>
+    <div class="post-wrapper">
+      <div class="row post">
+        <div class="user-data col-md-2">
+          <p>{{ topic.author }}</p>
+          <img class="profile-image" src="{{ topic.author.profile.pic.url }}" alt="">
+          <p>Member since {{ topic.author.date_joined|date:'d/m/Y' }}</p>
+        </div>
+        <div class="post-content col-md-8">
+          <p class="post-text">
+            {{ topic.text }}
+          </p>
+          <p class="post-date">
+            {% if topic.edit_date %}
+              [Edited] {{ topic.edit_date }}
+            {% else %}
+              {{ topic.date_added }}
+            {% endif %}
+            {% if request.user == topic.author %}
+              <a class="edit-symbol" href="{% url 'edit_topic' topic_id=topic.id %}">Edit topic</a>
+            {% endif %}
+          </p>
+        </div>
       </div>
-      <div class="edit-div col-md-2">
-        {% if request.user == topic.author %}
-          <a class="edit-symbol" href="{% url 'edit_topic' topic_id=topic.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        {% endif %}
-      </div>
-      <div class="post-content col-md-8">
-        <p class="post-text">
-          {{ topic.text }}
-        </p>
-        <p class="post-date">
-          {% if topic.edit_date %}
-            [Edited] {{ topic.edit_date }}
-          {% else %}
-            {{ topic.date_added }}
-          {% endif %}
-        </p>
-      </div>
+      {% if topic.author.profile.bio %}
+        <div class="row user-bio">
+          <p>{{ topic.author.profile.bio }}</p>
+        </div>
+      {% endif %}
     </div>
     {% for post in posts %}
+    <div class="post-wrapper">
       <div class="row post">
         <div class="user-data col-md-2">
           <p>{{ post.author }}</p>
@@ -77,7 +83,6 @@
             </div>
             <hr>
             {% endif %}
-          </p>
           <p class="post-date">
             {% if post.edit_date %}
               [Edited] {{ post.edit_date }}
@@ -85,16 +90,25 @@
               {{ post.date_added }}
             {% endif %}
           </p>
-          <a class="post-quote" href="{% url 'new_post' topic_id=topic.id post_id=post.id %}">Quote</a>
-        </div>
-        <div class="edit-div col-md-2">
-          {% if request.user == post.author %}
-            <a class="edit-symbol" href="{% url 'edit_post' post_id=post.id topic_id=topic.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-          {% endif %}
+          <ul class="quote-edit">
+            {% if user.is_authenticated %}
+              <li><a class="post-quote" href="{% url 'new_post' topic_id=topic.id post_id=post.id %}">Quote</a></li>
+            {% endif %}
+            {% if request.user == post.author %}
+              <li><a class="edit-symbol" href="{% url 'edit_post' post_id=post.id topic_id=topic.id %}">Edit post</a></li>
+            {% endif %}
+          </ul>
         </div>
       </div>
+      {% if post.author.profile.bio %}
+        <div class="row user-bio">
+          <p>{{ post.author.profile.bio }}</p>
+        </div>
+      {% endif %}
+    </div>
     {% endfor %}
     {% if user.is_authenticated %}
-      <a href="{% url 'new_post' topic_id=topic.id %}"><span class="glyphicon glyphicon-plus"></span></a>
+      <a class="btn btn-primary btn-lg btn-block" href="{% url 'new_post' topic_id=topic.id %}">New post</a>
     {% endif %}
+  </div>
 {% endblock content %}

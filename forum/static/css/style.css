@@ -1,5 +1,5 @@
 body{
-  background-color: #f1f2f3;
+  background-color: #f5f5f5;
 }
 
 .topic{
@@ -11,7 +11,6 @@ body{
 .post{
   background-color: #ffffff;
   padding: 15pt;
-  border-bottom: 1px dotted #ccc;
 }
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h2 a:active {
     color: #ffffff;
@@ -19,7 +18,7 @@ body{
     text-decoration: none;
 }
 
-a, a:visited, a:active {
+td a, td a:visited, td a:active {
     color: #000;
     text-decoration: none;
 }
@@ -37,19 +36,19 @@ h1 a {
 .user-data{
   font-weight: bold;
   text-align: center;
+  border: 1px dotted #e1e2e3;
+  border-radius: 20px;
 }
 .user-data p, img{
   margin: 0;
 }
 .post-content{
-
   padding: 15pt;
 }
 .post-text{
   padding: 20pt;
-  /*background-color: #f1f2f3;*/
+  background-color: #f5f5f5;
   word-wrap: break-word;
-  /*border: 1px solid #ccc;*/
   border-radius: 10px 10px;
   min-width: 100%;
 }
@@ -77,4 +76,93 @@ blockquote{
 }
 .post-quote{
   font-weight: bold;
+}
+
+#footer {
+	/*background: #f6f6f6;*/
+	padding: 30px 0;
+}
+
+#footer p {
+	color: #888;
+	font-size: 14px;
+}
+
+#footer a {
+	color: #608dfd;
+}
+
+#footer a:hover {
+	border-bottom: 2px solid #608dfd;
+}
+
+.corpo{
+  min-height: 500px;
+  padding-top: 25px;
+}
+
+/*---------------------blockquote-----------------*/
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
+blockquote{
+  font-size: 1.4em;
+  width:100%;
+  font-family:Open Sans;
+  font-style:italic;
+  color: #555555;
+  padding:1.2em 30px 1.2em 40px;
+  border-left:8px solid #696969 ;
+  line-height:1.6;
+  position: relative;
+  background:#f0f0f0;
+}
+
+blockquote::before{
+  font-family:Arial;
+  content: "\201C";
+  color:#696969;
+  font-size:4em;
+  position: absolute;
+  left: 10px;
+  top:-10px;
+}
+
+blockquote::after{
+  content: '';
+}
+
+blockquote span{
+  display:block;
+  color:#333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top:1em;
+}
+
+/*--------------*/
+
+.post-wrapper{
+  border-bottom: 1px dotted #ccc;
+
+}
+
+.user-bio p{
+  background-color: #fff;
+  color: #696969;
+  padding: 15pt;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  border-top: 1px dotted #f1f2f3;
+}
+
+.new-post-separator{
+  background-color: #f1f2f3;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.quote-edit li{
+  list-style-type: none;
+  display: inline-block;
+  padding-right: 15px;
 }
